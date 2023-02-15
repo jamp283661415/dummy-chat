@@ -65,9 +65,9 @@ function App() {
               onChange={handleMessageChange}
               value={message}
             />
-            <span className="input-group-text" id="basic-addon2">
+            <button className="input-group-text" id="basic-addon2" type="submit">
               Send
-            </span>
+            </button>
           </div>
         </form>
       </div>
