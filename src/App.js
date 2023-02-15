@@ -1,23 +1,76 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [message, setMesssage] = useState("");
+  const [chat, setChat] = useState([
+    {
+      char: "You",
+      content: "Hi?",
+    },
+    {
+      char: "Bot",
+      content: "Yes? How may I help?",
+    },
+  ]);
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setChat([
+      ...chat,
+      {
+        char: "You",
+        content: message,
+      },
+    ]);
+
+    setTimeout(() => {
+      setChat((chat) => [
+        ...chat,
+        {
+          char: "Bot",
+          content: "Bot Message here",
+        },
+      ]);
+    }, 1000)
+    setMesssage("");
+  };
+
+  const handleMessageChange = (e) => {
+    setMesssage(e.target.value);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <div className="h-50">
+          <ul
+            className="list-group list-group-flush"
+            style={{ height: "500px", overflowY: "scroll" }}
+          >
+            {chat.map((item, id) => (
+              <li className="list-group-item" key={id}>
+                {item.char}: {item.content}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <form onSubmit={handleFormSubmit}>
+          <div className="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="What do you want to say?"
+              aria-label="chat content"
+              aria-describedby="basic-addon2"
+              onChange={handleMessageChange}
+              value={message}
+            />
+            <span className="input-group-text" id="basic-addon2">
+              Send
+            </span>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
